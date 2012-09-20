@@ -16,5 +16,6 @@
 @property (nonatomic, retain) NSString * author;
 @property (nonatomic, retain) NSString * avatar_url;
 @property (nonatomic) int64_t tweet_id;
+@property (nonatomic) int32_t order;
 
 @end

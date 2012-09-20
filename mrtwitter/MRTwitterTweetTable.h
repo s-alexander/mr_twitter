@@ -12,4 +12,5 @@
 
 @property (nonatomic, retain) IBOutlet UITableView * cell;
 @property (nonatomic, retain) IBOutlet UITableView * tableView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView * activityIndicator;
 @end

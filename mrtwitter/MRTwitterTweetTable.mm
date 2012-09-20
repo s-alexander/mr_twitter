@@ -9,6 +9,7 @@
 #import "MRTwitterTweetTable.h"
 #import "MRPublicTweetsManager.h"
 #import "Tweet.h"
+#import "FileStore+MRTwitter.h"
 
 @interface MRTwitterTweetTable ()
 
@@ -16,7 +17,7 @@
 
 @implementation MRTwitterTweetTable
 
-@synthesize tableView;
+@synthesize tableView, activityIndicator;
 
 -(MRPublicTweetsManager *) tweetManager {
   return [MRPublicTweetsManager sharedMRPublicTweetsManager];
@@ -38,7 +39,9 @@
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
+  [super viewDidUnload];
+  [self setTableView:0];
+  [self setActivityIndicator:0];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -67,19 +70,43 @@
   return t;
 }
 
+-(void) imageData:(NSData *) data forCell:(UITableViewCell *) cell {
+  [[cell imageView] setImage:[UIImage imageWithData:data]];
+}
+
+-(NSIndexPath *) pathForTweet:(Tweet *) t {
+  NSUInteger pos = [[[self tweetManager] allTweets] indexOfObject:t];
+  if (NSNotFound != pos) {
+    return [NSIndexPath indexPathForRow:pos inSection:0];
+  }
+  return 0;
+}
+
+-(void) imageData:(NSData *) data forTweet:(Tweet *) tweet {
+  NSIndexPath * path = [self pathForTweet:tweet];
+  [[self tableView] beginUpdates];
+  [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+  [[self tableView] endUpdates];
+//  UITableViewCell * cell = [[self tableView] cellForRowAtIndexPath:path];
+//  [self imageData:data forCell:cell];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   static NSString *CellIdentifier = @"Cell";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (0 == cell) {
-    cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier]autorelease];
+    cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier]autorelease];
   }
   Tweet * t = [self tweetForIndexPath:indexPath];
-  NSLog(@"%@ %@", [t body], [t author]);
+//  NSLog(@"%@", [t avatar_url]);
   [[cell detailTextLabel] setText:[t body]];
   [[cell textLabel] setText:[t author]];
-  [[cell imageView] setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[t avatar_url]]]]];
-    
+  
+  
+  NSURL * avatarUrl = [NSURL URLWithString:[t avatar_url]];
+  [[cell imageView] setImage:0];
+  [[FileStore twitterAvatars] loadDataInBackgroundFromUrl:avatarUrl delegate:self actionLoad:@selector(imageData:forTweet:) userData:t actionCache:@selector(imageData:forCell:) userData:cell];    
   // Configure the cell...
     
   return cell;
@@ -108,12 +135,16 @@
 
 -(void) tweetsManagerDidEndUpdate:(MRPublicTweetsManager *) manager {
   [[self tableView] setContentInset:UIEdgeInsetsZero];
+  [[self activityIndicator] stopAnimating];
 }
 
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView {
-  if (scrollView.contentOffset.y < -44) {
+  const CGFloat dragThreshold = 44;
+  const CGFloat topGap = 53;
+  if (scrollView.contentOffset.y < -dragThreshold) {
     [[self tweetManager] update];
-    [[self tableView]setContentInset:UIEdgeInsetsMake(44, 0, 0, 0)];
+    [[self activityIndicator] startAnimating];
+    [[self tableView] setContentInset:UIEdgeInsetsMake(topGap, 0, 0, 0)];
   }
 }
 
@@ -168,6 +199,12 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
+}
+
+-(void) dealloc {
+  [self setActivityIndicator:0];
+  [self setTableView:0];
+  [super dealloc];
 }
 
 @end

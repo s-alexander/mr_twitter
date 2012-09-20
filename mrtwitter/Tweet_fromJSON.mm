@@ -13,19 +13,23 @@
 
 @implementation Tweet (fromJSON)
 
+inline NSObject * notNil(NSObject * o) {
+  return o ? o : [NSNull null];
+}
 
 +(Tweet *) tweetWithId:(NSNumber *)tid fromDataManager:(MRTwitterDataManager *)dataManager {
   return [[dataManager selectFrom:@"Tweet" usingPredicate:[NSPredicate predicateWithFormat:@"tweet_id == %llu", [tid longLongValue]]] firstObject];
   
 }
 
-+(NSDictionary *) json2Tweet:(NSDictionary *)json {
++(NSDictionary *) json2Tweet:(NSDictionary *)json order:(NSUInteger) order {
   NSString * username = [[json objectForKey:@"user"] objectForKey:@"screen_name"];
   return [NSDictionary dictionaryWithObjectsAndKeys:
-          [json objectForKey:@"text"], @"body",
-          username, @"author",
-          [[json objectForKey:@"user"] objectForKey:@"profile_image_url"], @"avatar_url",
-          [json objectForKey:@"id"], @"tweet_id",
+          notNil([json objectForKey:@"text"]), @"body",
+          notNil(username), @"author",
+          [NSNumber numberWithUnsignedInteger:order], @"order",
+          notNil([[json objectForKey:@"user"] objectForKey:@"profile_image_url"]), @"avatar_url",
+          notNil([json objectForKey:@"id"]), @"tweet_id",
           nil];
 }
 
@@ -33,10 +37,12 @@
   NSMutableArray * result = 0;
   for (NSDictionary * tweetData in json) {
     NSNumber * tweetId = [tweetData objectForKey:@"id"];
-    NSLog(@"id = %llu", [tweetId longLongValue]);
     Tweet * old = [self tweetWithId:tweetId fromDataManager:dataManager];
     if (0 == old) {
-      Tweet * newTweet = (Tweet *)[dataManager insertInto:@"Tweet" withData:[self json2Tweet:tweetData]];
+      const NSUInteger order = 1 + [dataManager countIn:@"Tweet" usingPredicate:0];
+      NSDictionary * params = [self json2Tweet:tweetData order:order];
+      
+      Tweet * newTweet = (Tweet *)[dataManager insertInto:@"Tweet" withData:params];
       [lazy_aiar(&result) addObject:newTweet];
     }
   }

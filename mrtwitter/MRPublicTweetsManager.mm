@@ -31,8 +31,8 @@
 }
 
 -(NSURL *) pubStreamURL {
-  return [NSURL URLWithString:@"http://alxsrg.com/public_timeline.json"];
-//  return [NSURL URLWithString:@"http://api.twitter.com/1/statuses/public_timeline.json"];
+//  return [NSURL URLWithString:@"http://alxsrg.com/public_timeline.json"];
+  return [NSURL URLWithString:@"http://api.twitter.com/1/statuses/public_timeline.json"];
 //  return [NSURL URLWithString:@"https://stream.twitter.com/1/statuses/sample.json"];
 }
 
@@ -49,10 +49,11 @@
   NSMutableURLRequest * request = [[[NSMutableURLRequest alloc]initWithURL:[self pubStreamURL]]autorelease];
   NSURLConnection * connection = [[[NSURLConnection alloc]initWithRequest:request delegate:self]autorelease];
   [connection start];
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 -(NSArray *) allTweets {
-  return [[self dataManager] selectFrom:@"Tweet" usingPredicate:0];
+  return [[self dataManager] selectFrom:@"Tweet" usingPredicate:0 sortBy:[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]];
 }
 
 -(NSArray *) tweetsInRange:(NSRange)range {
@@ -66,6 +67,7 @@
 -(void) proccedError:(NSError *) error {
   [[self delegate] tweetsManager:self failedToUpdate:error];
   [[self delegate] tweetsManagerDidEndUpdate:self];
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 -(void) proccedResponse:(NSData *) data {
@@ -84,6 +86,8 @@
       [[self delegate] tweetsManager:self updatedWithTweets:newTweets];
     }
     [[self delegate] tweetsManagerDidEndUpdate:self];
+    [[self dataManager]save];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
   }
 }
 
