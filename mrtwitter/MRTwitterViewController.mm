@@ -1,18 +1,18 @@
 //
-//  ViewController.m
+//  MRTwitterViewController.mm
 //  mrtwitter
 //
 //  Created by Александр Сергеев on 9/20/12.
 //  Copyright (c) 2012 Alexander Sergeev. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "MRTwitterViewController.h"
 
-@interface ViewController ()
+@interface MRTwitterViewController ()
 
 @end
 
-@implementation ViewController
+@implementation MRTwitterViewController
 
 - (void)viewDidLoad
 {

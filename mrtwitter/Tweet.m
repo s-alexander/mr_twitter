@@ -1,13 +1,19 @@
 //
-//  ViewController.h
+//  Tweet.m
 //  mrtwitter
 //
 //  Created by Александр Сергеев on 9/20/12.
 //  Copyright (c) 2012 Alexander Sergeev. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "Tweet.h"
 
-@interface ViewController : UIViewController
+
+@implementation Tweet
+
+@dynamic body;
+@dynamic author;
+@dynamic avatar_url;
+@dynamic tweet_id;
 
 @end
