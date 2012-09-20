@@ -53,7 +53,7 @@
 }
 
 -(NSArray *) allTweets {
-  return [[self dataManager] selectFrom:@"Tweet" usingPredicate:0 sortBy:[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]];
+  return [[self dataManager] selectFrom:@"Tweet" usingPredicate:0 sortBy:[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO]];
 }
 
 -(NSArray *) tweetsInRange:(NSRange)range {
@@ -79,7 +79,8 @@
   } else {
    // NSLog(@"Tweets: [%@]", tweetsData);
     NSArray * newTweets = [Tweet newTweetsFromJSON:tweetsData withDataManager:[self dataManager]];
-    const BOOL fullReload = [newTweets count] == [tweetsData count];
+//    const BOOL fullReload = [newTweets count] == [tweetsData count];
+    const BOOL fullReload = false;
     if (fullReload) {
       [[self delegate] tweetsManager:self fullReloadWithTweets:newTweets];
     } else {
