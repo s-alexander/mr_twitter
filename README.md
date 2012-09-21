@@ -5,7 +5,7 @@ Mr. Twitter
 
 Simple twitter client for public twitter timeline.
 
-M(ail) R(u) Twitter is written for Stanslav P.
+M(ail) r(u). Twitter is written for Stanislav P.
 
 Features:
 - iPad and iPhone support;
