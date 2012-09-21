@@ -53,14 +53,15 @@
 						<bool key="IBUIAlwaysBounceVertical">YES</bool>
 						<int key="IBUISeparatorStyle">1</int>
 						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
+						<bool key="IBUIAllowsSelection">NO</bool>
 						<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-						<float key="IBUIRowHeight">44</float>
+						<float key="IBUIRowHeight">64</float>
 						<float key="IBUISectionHeaderHeight">22</float>
 						<float key="IBUISectionFooterHeight">22</float>
 					</object>
 					<object class="IBUIActivityIndicatorView" id="335094762">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">-2147483356</int>
+						<int key="NSvFlags">-2147483355</int>
 						<string key="NSFrame">{{374, 16}, {20, 20}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
@@ -189,17 +190,12 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="activityIndicator">UIActivityIndicatorView</string>
-						<string key="cell">UITableView</string>
 						<string key="tableView">UITableView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="activityIndicator">
 							<string key="name">activityIndicator</string>
 							<string key="candidateClassName">UIActivityIndicatorView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="cell">
-							<string key="name">cell</string>
-							<string key="candidateClassName">UITableView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="tableView">
 							<string key="name">tableView</string>

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		FA1F8A1C160C455C0079E7D0 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1F8A1A160C455C0079E7D0 /* icon.png */; };
 		FA1F8A1D160C455C0079E7D0 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1F8A1B160C455C0079E7D0 /* icon@2x.png */; };
+		FA1F8A23160C4C9E0079E7D0 /* MRTweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1F8A22160C4C9E0079E7D0 /* MRTweetCell.m */; };
+		FA1F8A27160C53A60079E7D0 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1F8A24160C53A60079E7D0 /* Default-Landscape.png */; };
+		FA1F8A28160C53A60079E7D0 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1F8A25160C53A60079E7D0 /* Default-Portrait.png */; };
+		FA1F8A29160C53A60079E7D0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1F8A26160C53A60079E7D0 /* Default.png */; };
 		FA306E56160B5E9E00D4EA52 /* FileStore.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA306E53160B5E9E00D4EA52 /* FileStore.mm */; };
 		FA306E5B160B5EBE00D4EA52 /* FileStore+MRTwitter.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA306E5A160B5EBE00D4EA52 /* FileStore+MRTwitter.mm */; };
 		FA306E5E160B612300D4EA52 /* DataLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA306E5D160B612300D4EA52 /* DataLoader.mm */; };
@@ -26,7 +30,6 @@
 		FA75E980160B254B003A49CA /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA75E97E160B254B003A49CA /* ViewController_iPhone.xib */; };
 		FA75E983160B254B003A49CA /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA75E981160B254B003A49CA /* ViewController_iPad.xib */; };
 		FA75E990160B2706003A49CA /* MRTwitterTweetTable.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA75E98F160B2706003A49CA /* MRTwitterTweetTable.mm */; };
-		FA75E992160B2765003A49CA /* MRTwitterTweetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA75E991160B2765003A49CA /* MRTwitterTweetCell.xib */; };
 		FA75E995160B27FC003A49CA /* MRTwitterLocalData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA75E993160B27FC003A49CA /* MRTwitterLocalData.xcdatamodeld */; };
 		FA75E998160B289A003A49CA /* MRTwitterDataManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = FA75E997160B289A003A49CA /* MRTwitterDataManager.mm */; };
 		FA75E99C160B2A0F003A49CA /* NSArray+FirstObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75E99A160B2A0F003A49CA /* NSArray+FirstObject.m */; };
@@ -45,6 +48,11 @@
 /* Begin PBXFileReference section */
 		FA1F8A1A160C455C0079E7D0 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = SOURCE_ROOT; };
 		FA1F8A1B160C455C0079E7D0 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = SOURCE_ROOT; };
+		FA1F8A21160C4C9E0079E7D0 /* MRTweetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRTweetCell.h; path = ../MRTweetCell.h; sourceTree = "<group>"; };
+		FA1F8A22160C4C9E0079E7D0 /* MRTweetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRTweetCell.m; path = ../MRTweetCell.m; sourceTree = "<group>"; };
+		FA1F8A24160C53A60079E7D0 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = SOURCE_ROOT; };
+		FA1F8A25160C53A60079E7D0 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = SOURCE_ROOT; };
+		FA1F8A26160C53A60079E7D0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = SOURCE_ROOT; };
 		FA306E52160B5E9E00D4EA52 /* FileStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileStore.h; sourceTree = "<group>"; };
 		FA306E53160B5E9E00D4EA52 /* FileStore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FileStore.mm; sourceTree = "<group>"; };
 		FA306E59160B5EBE00D4EA52 /* FileStore+MRTwitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FileStore+MRTwitter.h"; sourceTree = "<group>"; };
@@ -78,7 +86,6 @@
 		FA75E982160B254B003A49CA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
 		FA75E98E160B2706003A49CA /* MRTwitterTweetTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRTwitterTweetTable.h; sourceTree = "<group>"; };
 		FA75E98F160B2706003A49CA /* MRTwitterTweetTable.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRTwitterTweetTable.mm; sourceTree = "<group>"; };
-		FA75E991160B2765003A49CA /* MRTwitterTweetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MRTwitterTweetCell.xib; sourceTree = "<group>"; };
 		FA75E994160B27FC003A49CA /* MRTwitterLocalData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MRTwitterLocalData.xcdatamodel; sourceTree = "<group>"; };
 		FA75E996160B289A003A49CA /* MRTwitterDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRTwitterDataManager.h; sourceTree = "<group>"; };
 		FA75E997160B289A003A49CA /* MRTwitterDataManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MRTwitterDataManager.mm; sourceTree = "<group>"; };
@@ -189,29 +196,28 @@
 		FA75E96F160B254A003A49CA /* mrtwitter */ = {
 			isa = PBXGroup;
 			children = (
-				FA1F8A1A160C455C0079E7D0 /* icon.png */,
-				FA1F8A1B160C455C0079E7D0 /* icon@2x.png */,
-				FA1F8A19160C3FD50079E7D0 /* my_libs */,
 				FA75E9A2160B2F1A003A49CA /* third-party */,
+				FA1F8A19160C3FD50079E7D0 /* my_libs */,
 				FA75E996160B289A003A49CA /* MRTwitterDataManager.h */,
 				FA75E997160B289A003A49CA /* MRTwitterDataManager.mm */,
-				FA75E978160B254A003A49CA /* AppDelegate.h */,
-				FA75E979160B254A003A49CA /* AppDelegate.m */,
+				FA306E59160B5EBE00D4EA52 /* FileStore+MRTwitter.h */,
+				FA306E5A160B5EBE00D4EA52 /* FileStore+MRTwitter.mm */,
 				FA75E97E160B254B003A49CA /* ViewController_iPhone.xib */,
 				FA75E981160B254B003A49CA /* ViewController_iPad.xib */,
-				FA75E970160B254A003A49CA /* Supporting Files */,
 				FA75E98E160B2706003A49CA /* MRTwitterTweetTable.h */,
 				FA75E98F160B2706003A49CA /* MRTwitterTweetTable.mm */,
-				FA75E991160B2765003A49CA /* MRTwitterTweetCell.xib */,
+				FA1F8A21160C4C9E0079E7D0 /* MRTweetCell.h */,
+				FA1F8A22160C4C9E0079E7D0 /* MRTweetCell.m */,
+				FA75E99F160B2AC7003A49CA /* MRPublicTweetsManager.h */,
+				FA75E9A0160B2AC7003A49CA /* MRPublicTweetsManager.mm */,
 				FA75E993160B27FC003A49CA /* MRTwitterLocalData.xcdatamodeld */,
 				FA75E9C2160B3112003A49CA /* Tweet.h */,
 				FA75E9C3160B3112003A49CA /* Tweet.m */,
-				FA75E99F160B2AC7003A49CA /* MRPublicTweetsManager.h */,
-				FA75E9A0160B2AC7003A49CA /* MRPublicTweetsManager.mm */,
 				FA75E9C6160B3193003A49CA /* Tweet_fromJSON.h */,
 				FA75E9C7160B31AD003A49CA /* Tweet_fromJSON.mm */,
-				FA306E59160B5EBE00D4EA52 /* FileStore+MRTwitter.h */,
-				FA306E5A160B5EBE00D4EA52 /* FileStore+MRTwitter.mm */,
+				FA75E978160B254A003A49CA /* AppDelegate.h */,
+				FA75E979160B254A003A49CA /* AppDelegate.m */,
+				FA75E970160B254A003A49CA /* Supporting Files */,
 			);
 			path = mrtwitter;
 			sourceTree = "<group>";
@@ -219,6 +225,11 @@
 		FA75E970160B254A003A49CA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FA1F8A24160C53A60079E7D0 /* Default-Landscape.png */,
+				FA1F8A25160C53A60079E7D0 /* Default-Portrait.png */,
+				FA1F8A26160C53A60079E7D0 /* Default.png */,
+				FA1F8A1A160C455C0079E7D0 /* icon.png */,
+				FA1F8A1B160C455C0079E7D0 /* icon@2x.png */,
 				FA75E971160B254A003A49CA /* mrtwitter-Info.plist */,
 				FA75E972160B254A003A49CA /* InfoPlist.strings */,
 				FA75E975160B254A003A49CA /* main.m */,
@@ -321,9 +332,11 @@
 				FA75E974160B254A003A49CA /* InfoPlist.strings in Resources */,
 				FA75E980160B254B003A49CA /* ViewController_iPhone.xib in Resources */,
 				FA75E983160B254B003A49CA /* ViewController_iPad.xib in Resources */,
-				FA75E992160B2765003A49CA /* MRTwitterTweetCell.xib in Resources */,
 				FA1F8A1C160C455C0079E7D0 /* icon.png in Resources */,
 				FA1F8A1D160C455C0079E7D0 /* icon@2x.png in Resources */,
+				FA1F8A27160C53A60079E7D0 /* Default-Landscape.png in Resources */,
+				FA1F8A28160C53A60079E7D0 /* Default-Portrait.png in Resources */,
+				FA1F8A29160C53A60079E7D0 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +370,7 @@
 				FA306E6F160B618800D4EA52 /* GTMNSString+HTML.m in Sources */,
 				FA306E70160B618800D4EA52 /* GTMNSString+URLArguments.m in Sources */,
 				FA306E71160B618800D4EA52 /* GTMNSString+XML.m in Sources */,
+				FA1F8A23160C4C9E0079E7D0 /* MRTweetCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

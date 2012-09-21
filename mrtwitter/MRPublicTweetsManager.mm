@@ -53,7 +53,7 @@
 }
 
 -(void) populateCache {
-  _tweetsCache = [[NSMutableArray alloc]initWithArray:[[self dataManager] selectFrom:@"Tweet" usingPredicate:0 sortBy:[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO]]];
+  _tweetsCache = [[NSMutableArray alloc]initWithArray:[[self dataManager] selectFrom:@"Tweet" usingPredicate:0 sortBy:[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]]];
 }
 
 -(NSArray *) allTweets {

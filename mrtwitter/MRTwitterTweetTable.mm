@@ -10,6 +10,7 @@
 #import "MRPublicTweetsManager.h"
 #import "Tweet.h"
 #import "FileStore+MRTwitter.h"
+#import "MRTweetCell.h"
 
 @interface MRTwitterTweetTable ()
 
@@ -24,12 +25,12 @@
 }
 
 -(void) doAutoUpdate {
-//  [[self tweetManager] update];
-  NSLog(@"Update");
+  [[self tweetManager] update];
+//  NSLog(@"Update");
 }
 
 -(void) scheduleAutoupdate {
-  NSTimeInterval updateInterval = 61;
+  NSTimeInterval updateInterval = 60 + 1; // Make it safe (+1 sec)
 
   NSTimer * timer = [NSTimer scheduledTimerWithTimeInterval:updateInterval target:self selector:@selector(doAutoUpdate) userInfo:0 repeats:NO];
   [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
@@ -50,25 +51,18 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
--(void) freeAutoupdateTimer {
-  [_autoupdater invalidate];
-  [_autoupdater release];
-  _autoupdater = 0;
-}
-
 - (void)viewDidUnload
 {
   [super viewDidUnload];
   [self setTableView:0];
   [self setActivityIndicator:0];
-  [self freeAutoupdateTimer];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+  return YES;
 }
 
 #pragma mark - Table view data source
@@ -82,7 +76,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-  return [[self tweetManager]tweetsCount];
+  const NSUInteger c = [[self tweetManager]tweetsCount];
+  if (0 == c) {
+    [[self activityIndicator] startAnimating];
+  } else {
+    [[self activityIndicator] stopAnimating];
+  }
+  return c;
 }
 
 -(Tweet *) tweetForIndexPath:(NSIndexPath *)path {
@@ -105,7 +105,7 @@
 -(void) imageData:(NSData *) data forTweet:(Tweet *) tweet {
   NSIndexPath * path = [self pathForTweet:tweet];
   [[self tableView] beginUpdates];
-  [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+  [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
   [[self tableView] endUpdates];
 }
 
@@ -114,18 +114,17 @@
   static NSString *CellIdentifier = @"Cell";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (0 == cell) {
-    cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier]autorelease];
+    cell = [[[MRTweetCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier]autorelease];
   }
+  // Configure the cell...
   Tweet * t = [self tweetForIndexPath:indexPath];
-//  NSLog(@"%@", [t avatar_url]);
   [[cell detailTextLabel] setText:[t body]];
   [[cell textLabel] setText:[t author]];
   
   
   NSURL * avatarUrl = [NSURL URLWithString:[t avatar_url]];
   [[cell imageView] setImage:0];
-  [[FileStore twitterAvatars] loadDataInBackgroundFromUrl:avatarUrl delegate:self actionLoad:@selector(imageData:forTweet:) userData:t actionCache:@selector(imageData:forCell:) userData:cell];    
-  // Configure the cell...
+  [[FileStore twitterAvatars] loadDataInBackgroundFromUrl:avatarUrl delegate:self actionLoad:@selector(imageData:forTweet:) userData:t actionCache:@selector(imageData:forCell:) userData:cell];
     
   return cell;
 }
@@ -157,8 +156,6 @@
 }
 
 -(void) tweetsManagerDidEndUpdate:(MRPublicTweetsManager *) manager {
-  [[self tableView] setContentInset:UIEdgeInsetsZero];
-  [[self activityIndicator] stopAnimating];
 }
 
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -227,7 +224,6 @@
 -(void) dealloc {
   [self setActivityIndicator:0];
   [self setTableView:0];
-  [self freeAutoupdateTimer];
   [super dealloc];
 }
 
