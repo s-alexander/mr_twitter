@@ -154,6 +154,7 @@
 }
 
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView {
+  // Pull-to-reload
   const CGFloat dragThreshold = 64;
   const CGFloat topGap = dragThreshold;
   if (scrollView.contentOffset.y < -dragThreshold) {
