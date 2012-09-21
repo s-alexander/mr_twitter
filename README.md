@@ -1,7 +1,8 @@
 Mr. Twitter
 ==========
 
-![ScreenShot](https://github.com/s-alexander/mr_twitter/blob/master/icon%402x.png)
+![ScreenShot](https://raw.github.com/s-alexander/mr_twitter/master/icon@2x.png)
+
 Simple twitter client for public twitter timeline.
 
 M(ail) R(u) Twitter is written for Stanslav P.
