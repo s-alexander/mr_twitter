@@ -33,7 +33,8 @@
 -(NSURL *) pubStreamURL {
 //  return [NSURL URLWithString:@"http://alxsrg.com/public_timeline.json"];
   return [NSURL URLWithString:@"http://api.twitter.com/1/statuses/public_timeline.json"];
-//  return [NSURL URLWithString:@"https://stream.twitter.com/1/statuses/sample.json"];
+
+  //  return [NSURL URLWithString:@"https://stream.twitter.com/1/statuses/sample.json"];
 }
 
 -(NSString *) username {
@@ -90,7 +91,7 @@
 }
 
 -(void) proccedResponse:(NSData *) data {
-  NSLog(@"Data = %@", [[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]autorelease]);
+//  NSLog(@"Data = %@", [[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]autorelease]);
   NSError * error = 0;
   NSDictionary * jsonDict = [NSDictionary dictionaryWithJSONData:data error:&error];
   NSArray * tweetsData = safe_cast<NSArray>(jsonDict);
