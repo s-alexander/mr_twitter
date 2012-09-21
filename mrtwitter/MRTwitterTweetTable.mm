@@ -149,19 +149,20 @@
 }
 
 -(void) tweetsManagerDidEndUpdate:(MRPublicTweetsManager *) manager {
-  [[self activityIndicator] stopAnimating];
-  [[self tableView] setContentInset:UIEdgeInsetsZero];
+  /*[[self activityIndicator] stopAnimating];
+  [[self tableView] setContentInset:UIEdgeInsetsZero];*/
 }
 
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView {
   // Pull-to-reload
+  /*/
   const CGFloat dragThreshold = 64;
   const CGFloat topGap = dragThreshold;
   if (scrollView.contentOffset.y < -dragThreshold) {
     [[self tweetManager] update];
     [[self activityIndicator] startAnimating];
     [[self tableView] setContentInset:UIEdgeInsetsMake(topGap, 0, 0, 0)];
-  }
+  }*/
 }
 
 
