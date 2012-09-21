@@ -23,11 +23,24 @@
   return [MRPublicTweetsManager sharedMRPublicTweetsManager];
 }
 
+-(void) doAutoUpdate {
+//  [[self tweetManager] update];
+  NSLog(@"Update");
+}
+
+-(void) scheduleAutoupdate {
+  NSTimeInterval updateInterval = 61;
+
+  NSTimer * timer = [NSTimer scheduledTimerWithTimeInterval:updateInterval target:self selector:@selector(doAutoUpdate) userInfo:0 repeats:NO];
+  [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+}
+
 - (void)viewDidLoad
 {
   
   [[self tweetManager] setDelegate:self];
-  [[self tweetManager] update];
+  [self doAutoUpdate];
+
   [super viewDidLoad];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -37,11 +50,18 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(void) freeAutoupdateTimer {
+  [_autoupdater invalidate];
+  [_autoupdater release];
+  _autoupdater = 0;
+}
+
 - (void)viewDidUnload
 {
   [super viewDidUnload];
   [self setTableView:0];
   [self setActivityIndicator:0];
+  [self freeAutoupdateTimer];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -87,8 +107,6 @@
   [[self tableView] beginUpdates];
   [[self tableView] reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
   [[self tableView] endUpdates];
-//  UITableViewCell * cell = [[self tableView] cellForRowAtIndexPath:path];
-//  [self imageData:data forCell:cell];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -112,8 +130,12 @@
   return cell;
 }
 
+-(void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+  [self scheduleAutoupdate];
+}
+
 -(void) tweetsManager:(MRPublicTweetsManager *) manager failedToUpdate:(NSError *) error {
-  UIAlertView * alert = [[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:0 cancelButtonTitle:@"OK" otherButtonTitles:nil]autorelease];
+  UIAlertView * alert = [[[UIAlertView alloc]initWithTitle:@"Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil]autorelease];
   [alert show];
 }
 
@@ -127,6 +149,7 @@
     [tableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationLeft];
     [tableView endUpdates];
   }
+  [self scheduleAutoupdate];
 }
 
 -(void) tweetsManager:(MRPublicTweetsManager *) manager fullReloadWithTweets:(NSArray *) tweets {
@@ -139,13 +162,13 @@
 }
 
 -(void) scrollViewDidScroll:(UIScrollView *)scrollView {
-  const CGFloat dragThreshold = 44;
+/*  const CGFloat dragThreshold = 44;
   const CGFloat topGap = 53;
   if (scrollView.contentOffset.y < -dragThreshold) {
     [[self tweetManager] update];
     [[self activityIndicator] startAnimating];
     [[self tableView] setContentInset:UIEdgeInsetsMake(topGap, 0, 0, 0)];
-  }
+  }*/
 }
 
 /*
@@ -204,6 +227,7 @@
 -(void) dealloc {
   [self setActivityIndicator:0];
   [self setTableView:0];
+  [self freeAutoupdateTimer];
   [super dealloc];
 }
 

@@ -24,6 +24,7 @@ inline NSObject * notNil(NSObject * o) {
 
 +(NSDictionary *) json2Tweet:(NSDictionary *)json order:(NSUInteger) order {
   NSString * username = [[json objectForKey:@"user"] objectForKey:@"screen_name"];
+  NSLog(@"%@", username);
   return [NSDictionary dictionaryWithObjectsAndKeys:
           notNil([json objectForKey:@"text"]), @"body",
           notNil(username), @"author",

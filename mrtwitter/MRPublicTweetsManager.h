@@ -20,12 +20,12 @@
 
 @interface MRPublicTweetsManager : NSObject <NSURLConnectionDelegate> {
   NSMutableData * _connectionData;
+  NSMutableArray * _tweetsCache;
 }
 
 
 -(void) update;
 -(NSArray *) allTweets;
--(NSArray *) tweetsInRange:(NSRange)range;
 -(NSUInteger) tweetsCount;
 
 @property (nonatomic, retain) id<MRPublicTweetsManagerDelegate> delegate;

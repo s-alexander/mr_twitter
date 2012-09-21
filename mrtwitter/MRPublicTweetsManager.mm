@@ -37,11 +37,11 @@
 }
 
 -(NSString *) username {
-  return @"TalerkaIOSTest";
+  return @"";
 }
 
 -(NSString *) password {
-  return @"boconcept";
+  return @"";
 }
 
 -(void) update {
@@ -52,12 +52,16 @@
   [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
--(NSArray *) allTweets {
-  return [[self dataManager] selectFrom:@"Tweet" usingPredicate:0 sortBy:[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO]];
+-(void) populateCache {
+  _tweetsCache = [[NSMutableArray alloc]initWithArray:[[self dataManager] selectFrom:@"Tweet" usingPredicate:0 sortBy:[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:NO]]];
 }
 
--(NSArray *) tweetsInRange:(NSRange)range {
-  return 0;
+-(NSArray *) allTweets {
+  if ( 0 == _tweetsCache) {
+    [self populateCache];
+  }
+  
+  return _tweetsCache;
 }
 
 -(NSUInteger) tweetsCount {
@@ -79,7 +83,11 @@
   } else {
    // NSLog(@"Tweets: [%@]", tweetsData);
     NSArray * newTweets = [Tweet newTweetsFromJSON:tweetsData withDataManager:[self dataManager]];
-//    const BOOL fullReload = [newTweets count] == [tweetsData count];
+    if ([newTweets count]) {
+      NSIndexSet * indxs = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [newTweets count])];
+      [_tweetsCache insertObjects:newTweets atIndexes:indxs];
+    }
+    //    const BOOL fullReload = [newTweets count] == [tweetsData count];
     const BOOL fullReload = false;
     if (fullReload) {
       [[self delegate] tweetsManager:self fullReloadWithTweets:newTweets];

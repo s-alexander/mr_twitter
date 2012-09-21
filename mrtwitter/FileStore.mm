@@ -86,6 +86,7 @@
 -(id) initWithName:(NSString *) name {
   self = [super init];
   if (self) {
+    [self setMaxThreads:1];
     _name = [name retain];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES); 
     if (NSString *documentsDirectory = [paths firstObject]) {
