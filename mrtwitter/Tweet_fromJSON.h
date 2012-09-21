@@ -11,5 +11,5 @@
 
 @interface Tweet (fromJSON)
 
-+(NSArray *) newTweetsFromJSON:(NSArray *) json withDataManager:(MRTwitterDataManager *)dataManager;
++(NSArray *) getRecentTweetsFromJSON:(NSArray *) json withDataManager:(MRTwitterDataManager *)dataManager;
 @end

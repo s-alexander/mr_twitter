@@ -1,10 +1,14 @@
 Mr. Twitter
 ==========
 
-Simple twitter client
+Simple twitter client for public twitter timeline.
 
-M(ail) R(u) Twitter reads public twitter timeline.
-It supports both iPad and iPhone, landscape and portrait orientations.
-Avatars and offline cache is supported as well.
+M(ail) R(u) Twitter is written for Stanslav P.
 
-Autoupdate interval - 60 sec.
+Features:
+- iPad and iPhone support;
+- works both in landscape and portrait orientations;
+- original icon;
+- avatars;
+- offline cache;
+- pull-to-update feature

@@ -21,10 +21,13 @@
 @interface MRPublicTweetsManager : NSObject <NSURLConnectionDelegate> {
   NSMutableData * _connectionData;
   NSMutableArray * _tweetsCache;
+  BOOL _isUpdating;
 }
 
 
--(void) update;
+-(BOOL) update;
+-(BOOL) isUpdating;
+
 -(NSArray *) allTweets;
 -(NSUInteger) tweetsCount;
 

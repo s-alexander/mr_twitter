@@ -24,7 +24,6 @@ inline NSObject * notNil(NSObject * o) {
 
 +(NSDictionary *) json2Tweet:(NSDictionary *)json order:(NSUInteger) order {
   NSString * username = [[json objectForKey:@"user"] objectForKey:@"screen_name"];
-  NSLog(@"%@", username);
   return [NSDictionary dictionaryWithObjectsAndKeys:
           notNil([json objectForKey:@"text"]), @"body",
           notNil(username), @"author",
@@ -34,7 +33,7 @@ inline NSObject * notNil(NSObject * o) {
           nil];
 }
 
-+(NSArray *) newTweetsFromJSON:(NSArray *) json withDataManager:(MRTwitterDataManager *)dataManager {
++(NSArray *) getRecentTweetsFromJSON:(NSArray *) json withDataManager:(MRTwitterDataManager *)dataManager {
   NSMutableArray * result = 0;
   for (NSDictionary * tweetData in json) {
     NSNumber * tweetId = [tweetData objectForKey:@"id"];

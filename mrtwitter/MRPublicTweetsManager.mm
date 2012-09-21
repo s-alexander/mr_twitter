@@ -44,12 +44,21 @@
   return @"";
 }
 
--(void) update {
+-(BOOL) isUpdating {
+  return _isUpdating;
+}
+
+-(BOOL) update {
+  if (_isUpdating) {
+    return NO;
+  }
+  _isUpdating = YES;
   [[self dataManager] countIn:@"Tweet" usingPredicate:0];
   NSMutableURLRequest * request = [[[NSMutableURLRequest alloc]initWithURL:[self pubStreamURL]]autorelease];
   NSURLConnection * connection = [[[NSURLConnection alloc]initWithRequest:request delegate:self]autorelease];
   [connection start];
   [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+  return YES;
 }
 
 -(void) populateCache {
@@ -68,35 +77,47 @@
   return [[self dataManager] countIn:@"Tweet" usingPredicate:0];
 }
 
+-(void) endUpdate {
+  _isUpdating = NO;
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+  [[self delegate] tweetsManagerDidEndUpdate:self];
+  
+}
+
 -(void) proccedError:(NSError *) error {
   [[self delegate] tweetsManager:self failedToUpdate:error];
-  [[self delegate] tweetsManagerDidEndUpdate:self];
-  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+  [self endUpdate];
 }
 
 -(void) proccedResponse:(NSData *) data {
-  //NSLog(@"Data = %@", [[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]autorelease]);
+  NSLog(@"Data = %@", [[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding]autorelease]);
   NSError * error = 0;
-  NSArray * tweetsData = safe_cast<NSArray>([NSDictionary dictionaryWithJSONData:data error:&error]);
-  if (0 != error) {
+  NSDictionary * jsonDict = [NSDictionary dictionaryWithJSONData:data error:&error];
+  NSArray * tweetsData = safe_cast<NSArray>(jsonDict);
+  if (0 != error || 0 == tweetsData) {
+    if (0 == error) {
+      NSString * errorDesct = [safe_cast<NSDictionary>(jsonDict) objectForKey:@"error"];
+      error = [NSError errorWithDomain:@"" code:0 userInfo:[NSDictionary dictionaryWithObject:(errorDesct ? errorDesct : @"Internal twitter error") forKey:NSLocalizedDescriptionKey]];
+    }
     [self proccedError:error];
   } else {
    // NSLog(@"Tweets: [%@]", tweetsData);
-    NSArray * newTweets = [Tweet newTweetsFromJSON:tweetsData withDataManager:[self dataManager]];
+    NSArray * newTweets = [Tweet getRecentTweetsFromJSON:tweetsData withDataManager:[self dataManager]];
     if ([newTweets count]) {
       NSIndexSet * indxs = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [newTweets count])];
       [_tweetsCache insertObjects:newTweets atIndexes:indxs];
     }
+    // MERGE?
     //    const BOOL fullReload = [newTweets count] == [tweetsData count];
     const BOOL fullReload = false;
+    
     if (fullReload) {
       [[self delegate] tweetsManager:self fullReloadWithTweets:newTweets];
     } else {
       [[self delegate] tweetsManager:self updatedWithTweets:newTweets];
     }
-    [[self delegate] tweetsManagerDidEndUpdate:self];
+    [self endUpdate];
     [[self dataManager]save];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
   }
 }
 
@@ -120,26 +141,5 @@
   }
   [_connectionData appendData:data];
 }
-
--(void) connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-  if ([challenge previousFailureCount] == 0) {
-    NSLog(@"received authentication challenge");
-    NSURLCredential *newCredential = [NSURLCredential credentialWithUser:[self username]
-                                                                password:[self password]
-                                                             persistence:NSURLCredentialPersistenceForSession];
-    NSLog(@"credential created");
-    [[challenge sender] useCredential:newCredential forAuthenticationChallenge:challenge];
-    NSLog(@"responded to authentication challenge");
-  }
-  else {
-    NSLog(@"previous authentication failure");
-  }
-}
-
-/*- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
-  return 0; // Do not cache
-}*/
-
-
 
 @end
